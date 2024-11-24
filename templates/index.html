@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Scam Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="chatbox">
+        <div id="chatWindow"></div>
+        <input id="userInput" type="text" placeholder="Type your question..." style="width: 65%;">
+        <select id="languageSelect" style="width: 15%;">
+            <option value="en" selected>English</option>
+            <option value="ms">Malay</option>
+            <option value="zh">Chinese</option>
+            <option value="ta">Tamil</option>
+        </select>
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    <script>
+        const chatWindow = document.getElementById("chatWindow");
+
+        function appendMessage(content, className) {
+            const div = document.createElement("div");
+            div.className = `chat ${className}`;
+            div.textContent = content;
+            chatWindow.appendChild(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const userInput = document.getElementById("userInput").value;
+            const userLanguage = document.getElementById("languageSelect").value;
+
+            if (!userInput) return;
+
+            appendMessage(userInput, "user");
+            document.getElementById("userInput").value = "";
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ query: userInput, language: userLanguage })
+                });
+                const data = await response.json();
+                appendMessage(data.response || "No response from server.", "bot");
+            } catch (error) {
+                appendMessage("Error connecting to the server.", "bot");
+            }
+        }
+    </script>
+</body>
+</html>

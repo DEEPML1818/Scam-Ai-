@@ -1,0 +1,16 @@
+[
+    {
+        "company_name": "ABC Fraud Ltd",
+        "description": "Involved in fake investments and Ponzi schemes.",
+        "language": "English",
+        "scam_status": "Scam",
+        "evidence": "Reported by financial authorities."
+    },
+    {
+        "company_name": "XYZ Ventures",
+        "description": "Menawarkan pelaburan palsu.",
+        "language": "Malay",
+        "scam_status": "Scam",
+        "evidence": "Dilaporkan kepada Suruhanjaya Sekuriti Malaysia."
+    }
+]
