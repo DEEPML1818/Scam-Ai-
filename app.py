@@ -1,13 +1,13 @@
 from flask import Flask, request, jsonify, render_template
 import json
 import torch
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM , AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM
 from googletrans import Translator
 from fuzzywuzzy import fuzz
 import logging
+
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -16,12 +16,9 @@ app = Flask(__name__)
 with open("scams.json", "r", encoding="utf-8") as file:
     scam_data = json.load(file)
 
-
-
 # Load conversational model and tokenizer (DialoGPT Large)
 tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-large")
 model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-large")
-
 
 # Translator for multilingual support
 translator = Translator()
@@ -44,8 +41,6 @@ def get_predefined_response(user_input):
         if key in user_input:
             return response
     return None
-
-
 
 def search_scams(query, language):
     """Search for scams related to the query with fuzzy matching."""
@@ -72,7 +67,6 @@ def search_scams(query, language):
         return response
 
     return "No scams found matching your query."
-
 
 def explain_scam_type(scam_type, language):
     """Explain a scam type and translate if needed."""
